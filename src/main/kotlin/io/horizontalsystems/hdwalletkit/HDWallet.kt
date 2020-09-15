@@ -62,4 +62,9 @@ class HDWallet(seed: ByteArray, private val coinType: Int, val gapLimit: Int = 2
         return hdKeychain.getKeyByPath(path)
     }
 
+    fun rootPrivateKey(account: Int): HDKey {
+        return privateKey(path = "m/$purpose'/$coinType'/$account'")
+    }
+
+
 }
