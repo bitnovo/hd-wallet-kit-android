@@ -63,4 +63,10 @@ class HDWalletTest {
         }
     }
 
+    @Test
+    fun testXpub() {
+        assertEquals("0488b21e0300ec6f7a800000007e18ef9266bc086db0e6cc7cad55d362ccefe6daceae7a4ad345a73ab9750c34035526fff1528db43fd332aaa72f3bd7843429ac8a8d609257c3d1681d32575d71", hdWalletMainNet.extendedPublicKey(0).toHexString())
+        assertEquals("043587cf03a16bcbf580000000c14e0731b6292ddfafbd26f0c9e51c9e92f3f45341da76fdca8e90560750ed0e03d5980811f8f05063768209838ee0aecc8d7f1fe3d9a16154a3cd72e649226155", hdWalletTestNet.extendedPublicKey(0).toHexString())
+    }
+
 }

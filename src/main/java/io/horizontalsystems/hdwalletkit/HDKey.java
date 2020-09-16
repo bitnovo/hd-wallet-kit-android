@@ -128,6 +128,14 @@ public class HDKey extends ECKey {
         return childNumber;
     }
 
+    public int getIndex() {
+        int index = childNumber;
+        if (isHardened) {
+            index |= HARDENED_FLAG;
+        }
+        return index;
+    }
+
     /**
      * Check if the key is hardened
      *

@@ -12,6 +12,18 @@ class HDWallet(seed: ByteArray, private val coinType: Int, val gapLimit: Int = 2
         BIP84(84)
     }
 
+    fun isTestnet(): Boolean {
+        return coinType == 1
+    }
+
+    fun publicVersionBytes(): Int {
+        return if (isTestnet()) {
+            0x043587CF
+        } else {
+            0x0488B21E
+        }
+    }
+
     private val hdKeychain: HDKeychain = HDKeychain(seed)
 
     // m / purpose' / coin_type' / account' / change / address_index
@@ -66,5 +78,16 @@ class HDWallet(seed: ByteArray, private val coinType: Int, val gapLimit: Int = 2
         return privateKey(path = "m/$purpose'/$coinType'/$account'")
     }
 
+    fun extendedPublicKey(account: Int): ByteArray {
+        val hdKey = rootPrivateKey(account)
+
+        val networkVersion = publicVersionBytes().toByteArray()
+        val depth = byteArrayOf(hdKey.depth.toByte())
+        val parentFingerpint = hdKey.parent.fingerprint.toByteArray()
+        val index = hdKey.index.toByteArray()
+        val chainCode = hdKey.chainCode
+        val publicKey = hdKey.pubKey
+        return networkVersion + depth + parentFingerpint + index + chainCode + publicKey
+    }
 
 }
